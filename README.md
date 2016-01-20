@@ -45,9 +45,16 @@ In the console, a message return the value of MI which will be pruned network. F
 
       $ will generate prune scripts for mi=0.039708
 
-For submit the run_id.condor script:
+To submit the run_id.condor script:
 
 ```
 cd $outdir
 condor_submit run_id.condor
+```
+
+Sometimes jobs are held for unknown reasons, even though the .adj files are created empty.
+To find the empty files:
+```
+find $outdir -empty -iname '*.adj'
+
 ```

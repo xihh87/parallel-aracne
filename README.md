@@ -11,8 +11,10 @@ python /home/hachepunto/breast_cancer_networks/parallel_aracne/genera_condor.py 
 	--outdir /home/hachepunto/rauldb/subclasificacion/her2_1 \
 	--p 1
 ```
-
-
+The --expfile may or may not have a name for the rownames column, but every element must be separated by a TAB.
+The first line must be in format: 
+"\t sample1 \t sample2..." or "ID \t sample1 \t sample2..."
+Mind the opening TAB.
 
 To submit the run_id.condor script:
 

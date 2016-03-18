@@ -36,8 +36,8 @@ cp(args.expfile_bz2.name, outdir)
 
 # create aracne.sh
 aracne_sh = """#!/bin/bash
-tar xfz  ARACNE.src.tar.gz
-bunzip2 -k {run_expfile}.bz2
+tar xfz  --overwrite ARACNE.src.tar.gz
+bunzip2 -fk {run_expfile}.bz2
 hostname
 
 ARACNE/aracne2 -H ARACNE $@"""

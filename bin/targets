@@ -1,0 +1,33 @@
+#!/bin/bash
+preparar() {
+  awk '{print "N" OFS $0}' "$@"
+}
+
+datos() {
+  find -L \
+    data \
+    -name '*.txt'
+}
+
+
+prefijo() {
+  sed -r \
+    -e 's#^data/#results/001/#g' \
+    -e 's#\.txt$##g'
+}
+
+genes() {
+   ARCHIVO=$1
+   bin/genes $ARCHIVO
+}
+
+main() {
+  for f in `datos`; do
+    join \
+	<(echo $f | prefijo | preparar) \
+	<(bin/genes $f | preparar) \
+    | awk '{print $2 "." $3 ".adj"}'
+  done
+}
+
+main "$@"

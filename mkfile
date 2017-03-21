@@ -9,9 +9,13 @@
 		-o $target".build" \
 	&& mv $target".build" $target
 
-results/001/%.genes:	data/%.txt
+'results/002/(.*)\.sif':R:	'results/001/'
 	mkdir -p `dirname $target`
-	bin/genes \
-		$prereq \
+	EXPERIMENTO=$stem1
+	ARCHIVO="$EXPERIMENTO"'.*.adj'
+	find \
+		$stem1 \
+		-name "$ARCHIVO" \
+	| xargs bin/adj2sif \
 	> $target".build" \
 	&& mv $target".build" $target

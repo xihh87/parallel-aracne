@@ -22,7 +22,7 @@
 
 'results/003/%.sif':	'results/002/%.sif'
 	mkdir -p `dirname $target`
-	bin/rearrange_undirected_sif \
+	bin/no-repeats-in-sif \
 		$prereq \
 	> $target".build" \
 	&& mv $target".build" $target

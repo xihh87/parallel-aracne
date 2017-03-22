@@ -1,11 +1,13 @@
 <config.mk
 
-'results/001/(.*)\.(.*)\.adj':R:	'data/\1\.txt'
+MKSHELL=/bin/bash
+
+'results/001/(.*)\.([0-9]+)\.(.*)\.adj':R:	'data/\1\.txt'
 	mkdir -p `dirname $target`
 	aracne \
 		$ARACNE_OPTS \
-		-h $stem2 \
-		-i $prereq \
+		-h $stem3 \
+		-i <(bin/sif-from-gene $stem2 $prereq) \
 		-o $target".build" \
 	&& mv $target".build" $target
 

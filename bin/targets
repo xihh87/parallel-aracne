@@ -17,16 +17,16 @@ prefijo() {
 }
 
 genes() {
-   ARCHIVO=$1
-   bin/genes $ARCHIVO
+   ARCHIVO="$1"
+   bin/genes "$ARCHIVO"
 }
 
 main() {
   for f in `datos`; do
     join \
-	<(echo $f | prefijo | preparar) \
-	<(bin/genes $f | preparar) \
-    | awk '{print $2 "." $3 ".adj"}'
+	<(echo "$f" | prefijo | preparar) \
+	<(bin/genes "$f" | sort -V | cat -n | preparar) \
+    | awk '{print $2 "." $3 "." $4 ".adj"}'
   done
 }
 

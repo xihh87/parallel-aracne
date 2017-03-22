@@ -1,5 +1,4 @@
 #!/bin/sh
-bin/inputs \
-| sed -r \
+sed -r \
     -e 's#^data/#results/001/#g' \
     -e 's#\.txt$#.ok#g'

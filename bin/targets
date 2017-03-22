@@ -7,7 +7,6 @@ datos() {
   bin/inputs
 }
 
-
 prefijo() {
   sed -r \
     -e 's#^data/#results/001/#g' \
@@ -19,8 +18,21 @@ genes() {
    bin/genes "$ARCHIVO"
 }
 
+revisar_redes() {
+  bin/inputs \
+  | bin/input2check \
+  | xargs -l mk
+}
+
 main() {
+  # revisar las redes con mk
+  revisar_redes >&2
+
   for f in `datos`; do
+    # sólo agregar a la cola si pasaron las pruebas
+    test -e `echo $f | bin/input2check` || continue
+
+    # combinar las redes con cada uno de sus genes
     join \
 	<(echo "$f" | prefijo | preparar) \
 	<(bin/genes "$f" | sort -V | cat -n | preparar) \

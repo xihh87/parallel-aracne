@@ -2,12 +2,12 @@
 
 MKSHELL=/bin/bash
 
-'results/001/(.*)\.([0-9]+)\.(.*)\.adj':R:	'data/\1\.txt'
+'results/001/(.*)\.([0-9]+)\.(.*)\.adj':R:	'data/\1\.txt'	'results/001/\1.ok'
 	mkdir -p `dirname $target`
 	aracne \
 		$ARACNE_OPTS \
 		-h $stem3 \
-		-i <(bin/sif-from-gene $stem2 $prereq) \
+		-i <(bin/sif-from-gene $stem2 'data/'$stem1'.txt') \
 		-o $target".build" \
 	&& mv $target".build" $target
 
@@ -28,3 +28,13 @@ MKSHELL=/bin/bash
 		$prereq \
 	> $target".build" \
 	&& mv $target".build" $target
+
+results/001/%.ok:Q:	data/%.txt
+	mkdir -p `dirname $prereq`
+	test  `bin/genes-repetidos $prereq | wc -l` -eq 0 \
+	&& touch $target \
+	|| {
+		printf "Colapsa los siguientes genes en '$prereq':\n%s\n" \
+		"`bin/genes-repetidos $prereq`"
+		exit 1
+	}

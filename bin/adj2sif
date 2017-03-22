@@ -1,10 +1,10 @@
 #!/usr/bin/awk -f
 
-# This script takes an adj of the form:
+# Take an adj of the form:
 #
 # gene <tab> gene <tab> mi ... gene <tab> mi
 #
-# and outputs a sif of the form
+# and output a sif of the form:
 #
 # gene <tab> mi <gene>
 

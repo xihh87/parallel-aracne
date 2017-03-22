@@ -4,9 +4,7 @@ preparar() {
 }
 
 datos() {
-  find -L \
-    data \
-    -name '*.txt'
+  bin/inputs
 }
 
 

@@ -1,28 +1,5 @@
 #!/bin/bash
-preparar() {
-  awk '{print "N" OFS $0}' "$@"
-}
-
-datos() {
-  bin/inputs
-}
-
-prefijo() {
-  sed -r \
-    -e 's#^data/#results/001/#g' \
-    -e 's#\.txt$##g'
-}
-
-genes() {
-   ARCHIVO="$1"
-   bin/genes "$ARCHIVO"
-}
-
-revisar_redes() {
-  bin/inputs \
-  | bin/input2check \
-  | xargs -l mk
-}
+source lib/targets
 
 main() {
   # revisar las redes con mk
@@ -30,13 +7,10 @@ main() {
 
   for f in `datos`; do
     # sólo agregar a la cola si pasaron las pruebas
-    test -e `echo $f | bin/input2check` || continue
+    test -e `echo "$f" | bin/input2check` || continue
 
     # combinar las redes con cada uno de sus genes
-    join \
-	<(echo "$f" | prefijo | preparar) \
-	<(bin/genes "$f" | sort -V | cat -n | preparar) \
-    | awk '{print $2 "." $3 "." $4 ".adj"}'
+    adj_from_txt "$f"
   done
 }
 

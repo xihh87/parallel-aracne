@@ -1,0 +1,6 @@
+#!/bin/bash
+source lib/targets
+
+for f in "$@"; do
+	adj_from_txt "$f"
+done

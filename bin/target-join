@@ -1,0 +1,4 @@
+bin/inputs \
+| sed -r \
+	-e 's#^data/#results/#g' \
+	-e 's#\.txt$#.adj#g'

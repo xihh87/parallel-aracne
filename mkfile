@@ -59,7 +59,7 @@ results/001/%.ok:Q:	data/%.txt
 
 # Join all adj files from an experiment into one.
 #
-'results/(.*/)([^/]*)\.adj':R:	'results/001\1'
+'results(.*/)([^/]*)\.adj':R:	'results/001\1'
 	mkdir -p `dirname $target`
 	EXPERIMENT=$stem2
 	FILE="$EXPERIMENT"'.*.adj'

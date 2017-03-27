@@ -59,14 +59,11 @@ results/001/%.ok:Q:	data/%.txt
 
 # Join all adj files from an experiment into one.
 #
-'results(.*/)([^/]*)\.adj':R:	'results/001\1'
+results/%.adj:	data/%.txt
 	mkdir -p `dirname $target`
-	EXPERIMENT=$stem2
-	FILE="$EXPERIMENT"'.*.adj'
-	find \
-		$prereq \
-		-name "$FILE" \
-	| sort -V \
+	# this xargs checks that all prerequisites are met
+	# if this check fails, the build will not be completed.
+	bin/input2adjs $prereq \
 	| xargs awk '$1 !~ /^>/' \
 	> $target".build" \
 	&& mv $target".build" $target

@@ -34,28 +34,19 @@ results/001/%.ok:Q:	data/%.txt
 #
 #	gene1 <tab> mi <tab> gene2
 #
-'results/002(.*/)([^/]*)\.sif':R:	'results/001\1'
+results/%.sif:	data/%.txt
 	mkdir -p `dirname $target`
-	EXPERIMENT=$stem2
-	FILE="$EXPERIMENT"'.*.adj'
-	find \
-		$prereq \
-		-name "$FILE" \
+	# this xargs checks that all prerequisites are met
+	# if this check fails, the build will not be completed.
+	bin/input2adjs $prereq \
 	| xargs bin/adj2sif \
 	> $target".build" \
-	&& mv $target".build" $target
+	&& mv $target".build" $target \
+	|| {
+		echo "Some files are missing. Please run the default target first."
+		exit 1
+	}
 
-# Filter repeats and self loops in sif.
-#
-# This step is superflous, because just the triangular matrix
-# is calculated and aracne does not output self loops.
-#
-'results/003/%.sif':	'results/002/%.sif'
-	mkdir -p `dirname $target`
-	bin/no-repeats-in-sif \
-		$prereq \
-	> $target".build" \
-	&& mv $target".build" $target
 
 # Join all adj files from an experiment into one.
 #
@@ -66,4 +57,8 @@ results/%.adj:	data/%.txt
 	bin/input2adjs $prereq \
 	| xargs awk '$1 !~ /^>/' \
 	> $target".build" \
-	&& mv $target".build" $target
+	&& mv $target".build" $target \
+	|| {
+		echo "Some files are missing. Please run the default target first."
+		exit 1
+	}

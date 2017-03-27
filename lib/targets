@@ -28,6 +28,6 @@ adj_from_txt() {
     FILE="$1"
     join \
 	<(echo "$FILE" | prefijo | preparar) \
-	<(bin/genes "$FILE" | sort -V | cat -n | preparar) \
+	<(bin/genes "$FILE" | cat -n | preparar) \
     | awk '{print $2 "." $3 "." $4 ".adj"}'
 }

@@ -20,9 +20,11 @@ genes() {
 }
 
 revisar_redes() {
+  NPROC="`grep proc /proc/cpuinfo | wc -l`"
   bin/inputs \
   | bin/input2check \
-  | xargs -l mk
+  | stest -ve \
+  | xargs -n $NPROC env NPROC=$NPROC mk
 }
 
 adj_from_txt() {

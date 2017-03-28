@@ -6,7 +6,7 @@ main() {
   revisar_redes >&2
 
   # sólo agregar a la cola si pasaron las pruebas
-  for f in `bin/inputs | bin/input2check | stest -e`; do
+  for f in `bin/inputs | bin/input2check`; do
     # combinar las redes con cada uno de sus genes
     adj_from_txt "$f"
   done

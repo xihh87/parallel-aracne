@@ -33,9 +33,13 @@ datos <- avereps(
 
 idx <- order(row.names(datos))
 
+datos <- as.data.frame(datos[idx,])
+datos <- cbind(sondas=row.names(datos), datos)
+
 write.table(
-	datos[idx,],
+	datos,
 	file = args$output,
 	quote = FALSE,
+	row.names=FALSE,
 	sep = "\t"
 )

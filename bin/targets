@@ -5,10 +5,8 @@ main() {
   # revisar las redes con mk
   revisar_redes >&2
 
-  for f in `datos`; do
-    # sólo agregar a la cola si pasaron las pruebas
-    test -e `echo "$f" | bin/input2check` || continue
-
+  # sólo agregar a la cola si pasaron las pruebas
+  for f in `bin/inputs | bin/input2check | stest -e`; do
     # combinar las redes con cada uno de sus genes
     adj_from_txt "$f"
   done

@@ -10,6 +10,7 @@ datos() {
 prefijo() {
   sed -r \
     -e 's#^data/#results/001/#g' \
+    -e 's#/001/#/002/#g' \
     -e 's#\.txt$##g'
 }
 

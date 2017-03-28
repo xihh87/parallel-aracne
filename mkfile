@@ -8,26 +8,21 @@ MKSHELL=/bin/bash
 #
 #	gene1 <tab> gene2 <tab> mi [...] gene_n <tab> mi
 #
-'results/001/(.*)\.([0-9]+)\.(.*)\.adj':R:	'data/\1\.txt'	'results/001/\1.ok'
+'results/002/(.*)\.([0-9]+)\.(.*)\.adj':R:	'results/001/\1.txt'
 	mkdir -p `dirname $target`
 	aracne \
 		$ARACNE_OPTS \
 		-h $stem3 \
-		-i <(bin/sif-from-gene $stem2 'data/'$stem1'.txt') \
+		-i <(bin/sif-from-gene $stem2 $prereq) \
 		-o $target".build" \
 	&& mv $target".build" $target
 
-# Check input file for repeated probes.
+# Colapse by average repeated probes.
 #
-results/001/%.ok:Q:	data/%.txt
+results/001/%.txt:Q:	data/%.txt
 	mkdir -p `dirname $target`
-	test `bin/genes-repetidos $prereq | wc -l` -eq 0 \
-	&& touch $target \
-	|| {
-		printf "Colapsa las siguientes sondas en '$prereq':\n%s\n" \
-		"`bin/genes-repetidos $prereq`"
-		exit 1
-	}
+	bin/colapsa $prereq > $target'.build' \
+	&& mv $target'.build' $target
 
 # Convert the multiple adj from aracne output
 # into a sigle sif file of the form:

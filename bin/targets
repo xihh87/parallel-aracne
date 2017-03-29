@@ -3,7 +3,7 @@ source lib/targets
 
 main() {
   # revisar las redes con mk
-  revisar_redes >&2
+  revisar_redes >/dev/null 2>&1
 
   # sólo agregar a la cola si pasaron las pruebas
   for f in `bin/inputs | bin/input2check`; do

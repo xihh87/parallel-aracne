@@ -29,7 +29,7 @@ results/001/%.txt:Q:	data/%.txt
 #
 #	gene1 <tab> mi <tab> gene2
 #
-results/%.sif:	data/%.txt
+results/%.sif:	results/001/%.txt
 	mkdir -p `dirname $target`
 	# this xargs checks that all prerequisites are met
 	# if this check fails, the build will not be completed.
@@ -45,7 +45,7 @@ results/%.sif:	data/%.txt
 
 # Join all adj files from an experiment into one.
 #
-results/%.adj:	data/%.txt
+results/%.adj:	results/001/%.txt
 	mkdir -p `dirname $target`
 	# this xargs checks that all prerequisites are met
 	# if this check fails, the build will not be completed.

@@ -1,0 +1,49 @@
+PackratFormat: 1.4
+PackratVersion: 0.4.8.1
+RVersion: 3.3.2
+Repos: BioCsoft=https://bioconductor.org/packages/3.4/bioc,
+    BioCann=https://bioconductor.org/packages/3.4/data/annotation,
+    BioCexp=https://bioconductor.org/packages/3.4/data/experiment,
+    BioCextra=https://bioconductor.org/packages/3.4/extra,
+    CRAN=http://cran.inmegen.gob.mx
+
+Package: BiocInstaller
+Source: Bioconductor
+Version: 1.24.0
+Hash: b1c2c51cc77fd1031c7851d3116c39d0
+
+Package: argparse
+Source: CRAN
+Version: 1.0.4
+Hash: b04cdbae001b8d4705a717c2b32cdef7
+Requires: findpython, getopt, proto, rjson
+
+Package: findpython
+Source: CRAN
+Version: 1.0.2
+Hash: dc0fc8c83d9908378215c9d014c9c22a
+
+Package: getopt
+Source: CRAN
+Version: 1.20.0
+Hash: 951e83029bb5f798b53d7b53cbc50be9
+
+Package: limma
+Source: Bioconductor
+Version: 3.30.13
+Hash: b1b4997f535414082ab3ef4279578952
+
+Package: packrat
+Source: CRAN
+Version: 0.4.8-1
+Hash: 6ad605ba7b4b476d84be6632393f5765
+
+Package: proto
+Source: CRAN
+Version: 1.0.0
+Hash: f9a2528572320c1e0bc8783dfd6e0fae
+
+Package: rjson
+Source: CRAN
+Version: 0.2.15
+Hash: def074f38d0cff3b597649ee6f976128

@@ -1,0 +1,36 @@
+#!/bin/bash
+preparar() {
+  awk '{print "N" OFS $0}' "$@"
+}
+
+datos() {
+  bin/inputs
+}
+
+prefijo() {
+  sed -r \
+    -e 's#^data/#results/001/#g' \
+    -e 's#/001/#/002/#g' \
+    -e 's#\.txt$##g'
+}
+
+genes() {
+   ARCHIVO="$1"
+   bin/genes "$ARCHIVO"
+}
+
+revisar_redes() {
+  NPROC="`grep proc /proc/cpuinfo | wc -l`"
+  bin/inputs \
+  | bin/input2check \
+  | stest -ve \
+  | xargs -n $NPROC env NPROC=$NPROC mk
+}
+
+adj_from_txt() {
+    FILE="$1"
+    join \
+	<(echo "$FILE" | prefijo | preparar) \
+	<(bin/genes "$FILE" | cat -n | preparar) \
+    | awk '{print $2 "." $3 "." $4 ".adj"}'
+}

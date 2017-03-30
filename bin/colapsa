@@ -1,0 +1,45 @@
+#!/usr/bin/env Rscript
+
+library("limma")
+library("argparse")
+
+parser <- ArgumentParser(description = "Colapse probes into one.")
+parser$add_argument(
+        "file",
+        type = 'character',
+        help = "The expression matrix to process."
+)
+parser$add_argument(
+        "--output",
+	"-o",
+        type = 'character',
+	default = "/dev/fd/1",
+        help = "Where to store the colapsed matrix."
+)
+args <- parser$parse_args()
+
+args$file <- ifelse("-" == args$file, "stdin", args$file)
+
+datos <- read.table(
+	file = args$file,
+	header = TRUE,
+	sep = "\t"
+)
+
+datos <- avereps(
+	datos[,-1],
+	ID=datos[,1]
+)
+
+idx <- order(row.names(datos))
+
+datos <- as.data.frame(datos[idx,])
+datos <- cbind(sondas=row.names(datos), datos)
+
+write.table(
+	datos,
+	file = args$output,
+	quote = FALSE,
+	row.names=FALSE,
+	sep = "\t"
+)

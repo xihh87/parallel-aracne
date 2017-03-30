@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Output the header of the sif and the gene expression lines
+# begining from the gene specified by it's number.
+
+GENE_NUMBER="$1"
+shift;
+
+awk \
+	-F "\t" \
+	'NR == 1;
+	NR > '"$GENE_NUMBER" \
+"$@"

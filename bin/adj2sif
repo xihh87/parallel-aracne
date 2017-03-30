@@ -1,0 +1,20 @@
+#!/usr/bin/awk -f
+
+# Take an adj of the form:
+#
+# gene <tab> gene <tab> mi ... gene <tab> mi
+#
+# and output a sif of the form:
+#
+# gene <tab> mi <gene>
+
+BEGIN {
+	FS="\t"
+	OFS="\t"
+}
+
+$1 !~ /^>/ {
+	for (i = 2; i <= NF; i += 2) {
+		print $1 OFS $(i+1) OFS $i
+	}
+}

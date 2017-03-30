@@ -8,14 +8,14 @@ You should transform your files to the format required for further analyses.
 
 # Running a job
 
-You should add to the `data` directory your files
+Add to the `data` directory your files
 containing the expression matrices in the format:
 
 ```
 genes <tab> sample1 <tab> ... <tab> sample_n
 ```
 
-- The first line should be the header.
+- The first line must be the header.
 
 - The expression matrix filename(s) must end with `.txt`
 
@@ -41,6 +41,8 @@ To join every probe for an experiment into one file:
 bin/target-adjs | xargs mk
 ```
 
+Output will be added in the `results/` directory.
+
 ## SIF output {#sif}
 
 To transform every probe for an experiment into one sif file:
@@ -49,16 +51,20 @@ To transform every probe for an experiment into one sif file:
 bin/target-sifs | xargs mk
 ```
 
+Output will be added in the `results/` directory.
+
+## Cleaning intermediate results:
+
 # Requirements
 
-- [`mk`](http://doc.cat-v.org/bell_labs/mk/mk.pdf "A succesor for `make`."):
+- [mk](http://doc.cat-v.org/bell_labs/mk/mk.pdf "A succesor for `make`."):
     For running the jobs.
 
-- [`R`](http://www.r-project.org/ "Language and environment for statistical computing and graphics") 3.3:
+- [R 3.3](http://www.r-project.org/ "Language and environment for statistical computing and graphics"):
     For colapsing the expression matrices by mean.
     All required libraries are provided in this repository.
 
-- [`awk`](http://www.gnu.org/software/gawk/ "A minilanguage for text analysis."):
+- [awk](http://www.gnu.org/software/gawk/ "A minilanguage for text analysis."):
     For knowing which jobs to run.
 
 - [ARACNe](http://califano.c2b2.columbia.edu/aracne/ "Algorithm for the Reconstruction of Accurate Cellular Networks"):

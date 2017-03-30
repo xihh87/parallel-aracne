@@ -1,0 +1,7 @@
+data
+results
+*~
+*.sw?
+*.sub
+packrat/lib*/
+.Rhistory

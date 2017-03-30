@@ -1,0 +1,4 @@
+#!/bin/sh
+
+bin/inputs \
+| bin/input2check

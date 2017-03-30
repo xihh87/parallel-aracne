@@ -1,31 +1,77 @@
-# ARACNE with HTCondor
+# mk-aracne
 
-To generate the Condor_submit File:
+The pipeline run by [CSB-IG](http://csbig.inmegen.gob.mx/ "Computational Systems Biology/Integrative Genomics")
+to make aracne adjs with p=1.
 
-```
-python /home/hachepunto/breast_cancer_networks/parallel_aracne/genera_condor.py \
-	--aracne_tgz /home/hachepunto/ARACNE/ARACNE.src.tar.gz \
-	--expfile_bz2 /home/hachepunto/rauldb/subclasificacion/her2_exp_matrix.txt.bz2 \
-	--probes /home/hachepunto/rauldb/vaquerizas_plus2.txt \
-	--run_id her2_1 \
-	--outdir /home/hachepunto/rauldb/subclasificacion/her2_1 \
-	--p 1
-```
-The --expfile may or may not have a name for the rownames column, but every element must be separated by a TAB.
-The first line must be in format: 
-"\t sample1 \t sample2..." or "ID \t sample1 \t sample2..."
-Mind the opening TAB.
+This pipeline computes the superior diagonal of the adj only.
+You should transform your files to the format required for further analyses.
 
-To submit the run_id.condor script:
+# Running a job
+
+You should add to the `data` directory your files
+containing the expression matrices in the format:
 
 ```
-cd $outdir
-condor_submit run_id.condor
+genes <tab> sample1 <tab> ... <tab> sample_n
 ```
 
-Sometimes jobs are held for unknown reasons, even though the .adj files are created they are empty.
-To find the empty files:
-```
-find $outdir -empty -iname '*.adj'
+- The first line should be the header.
+
+- The expression matrix filename(s) must end with `.txt`
+
+Then execute:
 
 ```
+bin/targets | xargs mk
+```
+
+The expression value of each probe will be colapsed by mean,
+alphabetically sorted and placed in `results/001/`.
+
+The adj for each probe will be placed at `results/002/`
+but may be joined into a single [sif](#sif) or [adj](#adj).
+
+You can edit the parameters to run aracne with by editing `config.mk`.
+
+## ADJ output {#adj}
+
+To join every probe for an experiment into one file:
+
+```
+bin/target-adjs | xargs mk
+```
+
+## SIF output {#sif}
+
+To transform every probe for an experiment into one sif file:
+
+```
+bin/target-sifs | xargs mk
+```
+
+# Requirements
+
+- [`mk`](http://doc.cat-v.org/bell_labs/mk/mk.pdf "A succesor for `make`."):
+    For running the jobs.
+
+- [`R`](http://www.r-project.org/ "Language and environment for statistical computing and graphics") 3.3:
+    For colapsing the expression matrices by mean.
+    All required libraries are provided in this repository.
+
+- [`awk`](http://www.gnu.org/software/gawk/ "A minilanguage for text analysis."):
+    For knowing which jobs to run.
+
+- [ARACNe](http://califano.c2b2.columbia.edu/aracne/ "Algorithm for the Reconstruction of Accurate Cellular Networks"):
+    The whole point of this pipeline.
+
+    The binary file should be on your PATH and be named `aracne` (not `aracne2`).
+    As the binary needs modifications to be installed correctly on your PATH,
+    you can use a script containing:
+
+    ```
+    #!/bin/sh
+    /path/to/aracne2 -H "@"
+    ```
+
+    We use aracne 2 as published as of march 2017:
+    87ab986280492fab1058b9f8bfb411d5  ARACNE.src.tar.gz
